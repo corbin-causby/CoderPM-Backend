@@ -24,7 +24,7 @@ public class SignInDetailContext : DbContext
 public class SignInDetail
 {
     [Key]
-    public int SignInDetailId { get; set; }
+    public int SignInDetailId { get; set; } 
 
     [Column]
     public string UserEmail { get; set; } = "";

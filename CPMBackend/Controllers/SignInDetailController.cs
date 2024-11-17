@@ -51,21 +51,28 @@ namespace CPMBackend.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutSignInDetail(int id, SignInDetail signInDetail)
         {
-            if (signInDetail == null || signInDetail.SignInDetailId != id)
+            if (id != signInDetail.SignInDetailId)
             {
-                return BadRequest("Sign-in data is incorrect.");
+                return BadRequest();
             }
 
-            var existingSignInDetail = await _context.SignInDetails.FindAsync(id);
-            if (existingSignInDetail == null)
+            _context.Entry(signInDetail).State = EntityState.Modified;
+
+            try
             {
-                return NotFound($"Sign-in details with id {id} not found.");
+                await _context.SaveChangesAsync();
             }
-
-            existingSignInDetail.UserEmail = signInDetail.UserEmail;
-            existingSignInDetail.UserPassword = signInDetail.UserPassword;
-
-            await _context.SaveChangesAsync();
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!SignInDetailExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
 
             return NoContent();
 
@@ -88,6 +95,11 @@ namespace CPMBackend.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteSignInDetail(int id)
         {
+
+            if (_context.SignInDetails == null)
+            {
+                return NotFound();
+            }
             var signInDetail = await _context.SignInDetails.FindAsync(id);
             if (signInDetail == null)
             {
@@ -100,9 +112,9 @@ namespace CPMBackend.Controllers
             return NoContent();
         }
 
-        //private bool SignInDetailExists(int id)
-        //{
-
-        //}
+        private bool SignInDetailExists(int id)
+        {
+            return (_context.SignInDetails?.Any(e => e.SignInDetailId == id)).GetValueOrDefault();
+        }   
     }
 }

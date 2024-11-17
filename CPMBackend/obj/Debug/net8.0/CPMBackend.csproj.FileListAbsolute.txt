@@ -156,3 +156,4 @@
 /Users/corbincausby/CPMBackend/CPMBackend/obj/Debug/net8.0/CPMBackend.pdb
 /Users/corbincausby/CPMBackend/CPMBackend/obj/Debug/net8.0/CPMBackend.genruntimeconfig.cache
 /Users/corbincausby/CPMBackend/CPMBackend/obj/Debug/net8.0/ref/CPMBackend.dll
+/Users/corbincausby/CPMBackend/CPMBackend/obj/Debug/net8.0/CPMBackend.sourcelink.json
